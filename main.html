@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeloX Global | Liderança em Logística Inteligente 2026</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #FFCC00;
+            --secondary: #E31212;
+            --dark: #080808;
+            --surface: #121212;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #FFFFFF;
+            --text-dim: #B0B0B0;
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Outfit', sans-serif; scroll-behavior: smooth; }
+        body { background: var(--dark); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+
+        /* --- BACKGROUND ANIMADO --- */
+        body::before {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #080808 100%);
+            z-index: -1;
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed; top: 0; width: 100%; padding: 25px 8%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(8, 8, 8, 0.8); backdrop-filter: blur(20px);
+            z-index: 1000; border-bottom: 1px solid var(--border);
+        }
+        .logo { font-weight: 900; font-size: 26px; text-transform: uppercase; letter-spacing: -1px; }
+        .logo span { color: var(--primary); }
+        
+        nav a { color: var(--text); text-decoration: none; margin-left: 30px; font-size: 13px; font-weight: 600; text-transform: uppercase; transition: var(--transition); opacity: 0.8; }
+        nav a:hover { color: var(--primary); opacity: 1; }
+
+        /* --- HERO --- */
+        .hero {
+            height: 100vh; display: flex; align-items: center; padding: 0 8%;
+            background: linear-gradient(90deg, var(--dark) 35%, transparent 100%),
+                        url('https://images.unsplash.com/photo-1570675709905-51e97bb5938c?q=80&w=2000') center/cover;
+        }
+        .hero-h1 { font-size: clamp(45px, 8vw, 95px); line-height: 0.85; font-weight: 900; margin-bottom: 25px; }
+        .hero-h1 span { color: var(--primary); display: block; }
+        .hero-p { font-size: 20px; color: var(--text-dim); max-width: 600px; margin-bottom: 40px; }
+
+        /* --- BOTÕES --- */
+        .btn { padding: 18px 40px; font-weight: 900; text-transform: uppercase; cursor: pointer; border: none; transition: var(--transition); text-decoration: none; display: inline-block; border-radius: 4px; font-size: 14px; }
+        .btn-primary { background: var(--primary); color: #000; box-shadow: 0 10px 20px rgba(255, 204, 0, 0.2); }
+        .btn-primary:hover { transform: translateY(-5px); background: #fff; box-shadow: 0 15px 30px rgba(255, 204, 0, 0.4); }
+
+        /* --- QUICK TOOLS --- */
+        .tools-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 0 8%; margin-top: -80px; position: relative; z-index: 10; }
+        .card-tool { background: var(--surface); padding: 45px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 40px 80px rgba(0,0,0,0.6); backdrop-filter: blur(10px); }
+        .card-tool h3 { font-size: 14px; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; }
+        input { width: 100%; padding: 18px; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 6px; margin-bottom: 20px; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--primary); background: #222; }
+
+        /* --- SEÇÃO QUEM SOMOS --- */
+        .about-section { padding: 120px 8%; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .about-img { position: relative; border-radius: 20px; overflow: hidden; border: 1px solid var(--border); }
+        .about-img img { width: 100%; filter: grayscale(1) contrast(1.1); transition: 0.8s; }
+        .about-img:hover img { filter: grayscale(0) contrast(1); transform: scale(1.05); }
+
+        .tag { background: var(--secondary); color: white; padding: 6px 15px; border-radius: 4px; font-weight: 900; font-size: 12px; margin-bottom: 20px; display: inline-block; }
+
+        /* --- UNIDADES DE NEGÓCIO (DHL STYLE) --- */
+        .units-section { padding: 100px 8%; background: rgba(255,255,255,0.02); }
+        .section-header { text-align: center; margin-bottom: 80px; }
+        .section-header h2 { font-size: 45px; font-weight: 900; text-transform: uppercase; }
+
+        .units-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .unit-card { 
+            background: var(--surface); padding: 50px 40px; border-radius: 12px; border: 1px solid var(--border);
+            transition: var(--transition); position: relative; overflow: hidden;
+        }
+        .unit-card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--primary); transform: scaleX(0); transition: 0.5s; transform-origin: left; }
+        .unit-card:hover { transform: translateY(-15px); border-color: var(--primary); }
+        .unit-card:hover::before { transform: scaleX(1); }
+        .unit-card i { font-size: 35px; color: var(--primary); margin-bottom: 30px; display: block; }
+        .unit-card h3 { font-size: 22px; margin-bottom: 20px; }
+        .unit-card p { color: var(--text-dim); font-size: 15px; }
+
+        /* --- PORTAL / DASHBOARD --- */
+        .dashboard { padding: 100px 8%; display: none; transition: 0.5s; }
+        .db-wrap { background: var(--surface); border-radius: 20px; padding: 50px; border: 1px solid var(--border); box-shadow: 0 50px 100px rgba(0,0,0,0.8); }
+
+        /* --- FOOTER --- */
+        footer { padding: 100px 8% 40px; background: #050505; border-top: 1px solid var(--border); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 50px; margin-bottom: 60px; }
+        .footer-col h4 { color: var(--primary); margin-bottom: 25px; font-size: 14px; text-transform: uppercase; }
+        .footer-col li { list-style: none; margin-bottom: 15px; }
+        .footer-col a { color: var(--text-dim); text-decoration: none; font-size: 14px; transition: 0.3s; }
+        .footer-col a:hover { color: #fff; padding-left: 5px; }
+
+        .sources { border-top: 1px solid #1a1a1a; padding-top: 30px; color: #333; font-size: 10px; display: flex; justify-content: space-between; }
+
+        /* --- WHATSAPP --- */
+        .wa-btn { position: fixed; bottom: 30px; right: 30px; background: #25D366; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; color: #fff; z-index: 1000; box-shadow: 0 15px 30px rgba(0,0,0,0.4); }
+
+        @media (max-width: 768px) {
+            .hero { padding-top: 100px; height: auto; padding-bottom: 150px; }
+            .about-section { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="#" class="wa-btn"><i class="fab fa-whatsapp"></i></a>
+
+    <header>
+        <div class="logo">VELO<span>X</span> GLOBAL</div>
+        <nav>
+            <a href="#sobre">Ecossistema</a>
+            <a href="#unidades">Unidades</a>
+            <a href="#rastreio">Monitoramento</a>
+            <button class="btn btn-primary" style="padding: 12px 25px; margin-left: 20px;" onclick="toggleDB()">Portal Cloud</button>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="hero-h1">A Nova Era da <span>Logística Global.</span></h1>
+            <p class="hero-p">Movendo o mundo com frotas inteligentes, automação preditiva e presença em mais de 220 territórios.</p>
+            <div style="display: flex; gap: 20px;">
+                <a href="#sobre" class="btn btn-primary">Descobrir Soluções</a>
+                <a href="#rastreio" class="btn" style="border: 1px solid #fff; color: #fff;">Rastreio Satelital</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="tools-section" id="rastreio">
+        <div class="card-tool">
+            <h3><i class="fas fa-crosshairs"></i> Rastreamento em Tempo Real</h3>
+            <input type="text" id="trackInput" placeholder="VX-XXXX-2026">
+            <button class="btn btn-primary" style="width: 100%;" onclick="searchTrack()">Localizar Unidade</button>
+            <div id="trackRes"></div>
+        </div>
+        <div class="card-tool" style="border-top: 4px solid var(--secondary);">
+            <h3><i class="fas fa-robot"></i> Cotação Inteligente (IA)</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <input type="text" placeholder="Origem">
+                <input type="text" placeholder="Destino">
+            </div>
+            <button class="btn btn-primary" style="width: 100%; background: var(--secondary); color: #fff;" onclick="alert('Analisando rotas globais...')">Calcular Frete</button>
+        </div>
+    </section>
+
+    <section class="about-section" id="sobre">
+        <div class="about-img">
+            <img src="https://images.unsplash.com/photo-1580674285054-bed31e145f59?q=80&w=1200" alt="Operação VeloX">
+        </div>
+        <div class="about-info">
+            <span class="tag">INFRAESTRUTURA MUNDIAL</span>
+            <h2 style="font-size: 45px; margin-bottom: 25px; font-weight: 900;">Quem somos e <span>o que fazemos</span></h2>
+            <p style="color: var(--text-dim); font-size: 18px; margin-bottom: 30px;">
+                A VeloX Global opera como a espinha dorsal do comércio moderno. Fornecemos muito mais que transporte; entregamos confiança e vantagem competitiva para empresas de todos os portes em +220 países.
+            </p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <div>
+                    <h4 style="color: var(--primary); font-size: 24px;">99.8%</h4>
+                    <p style="font-size: 13px; text-transform: uppercase; color: #666;">Eficiência Operacional</p>
+                </div>
+                <div>
+                    <h4 style="color: var(--primary); font-size: 24px;">24/7</h4>
+                    <p style="font-size: 13px; text-transform: uppercase; color: #666;">Suporte Especializado</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="units-section" id="unidades">
+        <div class="section-header">
+            <h2>Nossas Unidades de <span>Negócio</span></h2>
+            <p style="color: var(--text-dim);">Especialização máxima para cada vertical do mercado.</p>
+        </div>
+        <div class="units-grid">
+            <div class="unit-card">
+                <i class="fas fa-bolt"></i>
+                <h4>VeloX Express</h4>
+                <h3>Transporte Expresso e Entregas Internacionais</h3>
+                <p>Nossa rede de alta velocidade para documentos e encomendas urgentes com desembaraço alfandegário imediato.</p>
+            </div>
+            <div class="unit-card">
+                <i class="fas fa-network-wired"></i>
+                <h4>VeloX Solutions</h4>
+                <h3>Gestão de Cadeia de Suprimentos</h3>
+                <p>Otimização de ponta a ponta: desde o armazenamento inteligente até o processamento de pedidos complexos.</p>
+            </div>
+            <div class="unit-card">
+                <i class="fas fa-globe-americas"></i>
+                <h4>VeloX Global Freight</h4>
+                <h3>Frete Aéreo e Marítimo</h3>
+                <p>Capacidade massiva para cargas pesadas. Soluções multimodais integradas para máxima economia e escala.</p>
+            </div>
+            <div class="unit-card">
+                <i class="fas fa-shopping-cart"></i>
+                <h4>VeloX eCommerce</h4>
+                <h3>Soluções para E-commerce</h3>
+                <p>Logística completa para lojas virtuais, com foco na experiência do cliente final e logística reversa.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="dashboard" id="portal">
+        <div class="db-wrap">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                <h2>Painel de Controle <span>VeloX Insight</span></h2>
+                <span style="color: var(--primary); border: 1px solid var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 12px;">DADOS EM TEMPO REAL</span>
+            </div>
+            <canvas id="chartBI"></canvas>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom: 20px;">VELO<span>X</span></div>
+                <p style="color: var(--text-dim); font-size: 14px;">Transformando a complexidade logística em simplicidade para o seu negócio.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Serviços</h4>
+                <ul>
+                    <li><a href="#">Expresso Internacional</a></li>
+                    <li><a href="#">Frete Marítimo</a></li>
+                    <li><a href="#">Soluções de Armazém</a></li>
+                    <li><a href="#">Consultoria ESG</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Institucional</h4>
+                <ul>
+                    <li><a href="#">Sobre a VeloX</a></li>
+                    <li><a href="#">Carreiras</a></li>
+                    <li><a href="#">Sustentabilidade</a></li>
+                    <li><a href="#">Investidores</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Global Hub</h4>
+                <p style="font-size: 13px; color: var(--text-dim);">
+                    Zurich, CH (HQ)<br>
+                    São Paulo, BR<br>
+                    Singapore, SG
+                </p>
+            </div>
+        </div>
+        <div class="sources">
+            <div>© 2026 VeloX Global Logistics S.A. Todos os direitos reservados.</div>
+            <div>Fontes: 1. IATA Global 2026 | 2. Gartner Supply Chain | 3. DHL Trend Radar | 4. ISO Logistics Standard | 5. World Trade Org.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Iniciar Animações
+        ScrollReveal().reveal('.unit-card', { interval: 100, origin: 'bottom', distance: '50px', duration: 1000 });
+        ScrollReveal().reveal('.card-tool', { delay: 300, scale: 0.9, duration: 1000 });
+
+        function searchTrack() {
+            const input = document.getElementById('trackInput').value;
+            const res = document.getElementById('trackRes');
+            res.innerHTML = "<p style='color: #666; font-size: 12px; margin-top: 10px;'>Conectando ao satélite VeloX-4...</p>";
+            
+            setTimeout(() => {
+                res.innerHTML = `
+                    <div style="background: rgba(37, 211, 102, 0.1); border: 1px solid #25D366; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                        <span style="color: #25D366; font-weight: 900; font-size: 12px;">● EM ROTA DE ENTREGA</span>
+                        <p style="font-size: 13px; margin-top: 5px;">Última atualização: São Paulo, BR - Hub Logístico Norte</p>
+                    </div>
+                `;
+            }, 1500);
+        }
+
+        function toggleDB() {
+            const db = document.getElementById('portal');
+            db.style.display = db.style.display === 'block' ? 'none' : 'block';
+            if(db.style.display === 'block') {
+                window.location.hash = "portal";
+                const ctx = document.getElementById('chartBI').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Express', 'Freight', 'Ocean', 'eCommerce'],
+                        datasets: [{
+                            label: 'Desempenho Semanal (%)',
+                            data: [99.2, 98.5, 96.1, 99.7],
+                            backgroundColor: ['#FFCC00', '#E31212', '#FFCC00', '#E31212'],
+                            borderRadius: 5
+                        }]
+                    },
+                    options: { 
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: { 
+                            y: { beginAtZero: true, grid: { color: '#222' }, ticks: { color: '#fff' } },
+                            x: { grid: { display: false }, ticks: { color: '#fff' } }
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
